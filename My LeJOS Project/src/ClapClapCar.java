@@ -11,7 +11,7 @@ public class ClapClapCar {
 		// TODO Auto-generated method stub
 		final int WAIT_TIME = 1000;
 		
-		LCD.drawString("GoCar.java",2,2);
+		LCD.drawString("ClapClapCar.java",2,2);
 		LCD.drawString("Version 1",2,3);
 		LCD.drawString("Aedan Lawrence",2,4);
 		Button.ENTER.waitForPressAndRelease();
@@ -19,13 +19,28 @@ public class ClapClapCar {
 		Delay.msDelay(WAIT_TIME);
 		
 		float[] level = new float[1]; //A sound sample is just one number
+		int maxSoundLevel = 0; int minSoundLevel = 0;
 		
 		while(true) {
+			@SuppressWarnings("resource")
 			NXTSoundSensor ss = new NXTSoundSensor(SensorPort.S1);
 			SampleProvider sound = ss.getDBAMode();
-			LCD.drawString(level[0],2,2);
-			Delay.msDelay(WAIT_TIME);
-			LCD.clear();
+			sound.fetchSample(level,0);
+			if(level[0] > maxSoundLevel) {
+				maxSoundLevel = (int) level[0];
+				LCD.clear();
+				LCD.drawString("max",2,2);
+				LCD.drawInt(maxSoundLevel,4,2);
+				LCD.drawString("min",2,3);
+				LCD.drawInt(minSoundLevel,4,3);
+			} else if(level[0] < minSoundLevel) {
+				minSoundLevel = (int) level[0];
+				LCD.clear();
+				LCD.drawString("max",2,2);
+				LCD.drawInt(maxSoundLevel,4,2);
+				LCD.drawString("min",2,3);
+				LCD.drawInt(minSoundLevel,4,3);
+			}
 		}
 	}
 
