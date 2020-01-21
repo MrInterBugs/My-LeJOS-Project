@@ -10,7 +10,7 @@ public class SquareCar {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		final int ROTATE_TIME = 265;
+		final int ROTATE_TIME = 290;
 		final int FORWARD_TIME = 1000;
 		final int SQUARE_SIDES = 4;
 		final int RPS = 720;

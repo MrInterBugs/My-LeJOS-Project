@@ -11,7 +11,7 @@ import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
 
 public class FollowLine {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		final int WAIT_TIME = 1000;
@@ -22,7 +22,6 @@ public class FollowLine {
 		LCD.drawString("Aedan Lawrence",2,4);
 		Button.ENTER.waitForPressAndRelease();
 		LCD.clear();
-		Delay.msDelay(WAIT_TIME);
 		
 		BaseRegulatedMotor mLeft = new EV3LargeRegulatedMotor(MotorPort.A);
 		BaseRegulatedMotor mRight = new EV3LargeRegulatedMotor(MotorPort.B);
@@ -38,30 +37,26 @@ public class FollowLine {
 		SampleProvider colour = cs.getRedMode();
 		
 		while (Button.ENTER.isUp()){
+			LCD.drawString("Press enter",2,2);
+			LCD.drawString("to continue",2,3);
 			colour.fetchSample(level,0);
 			count++;
 			average = average + level[0];
-			String temp = Arrays.toString(level);
-			LCD.drawString(temp,2,2);
-			if(level[0] >= maxRedValue) {
+			if(level[0] > maxRedValue) {
 				maxRedValue = level[0];
-			} else if(level[0] <= minRedValue) {
+			} else if(level[0] < minRedValue) {
 				minRedValue = level[0];
 			}
-			Delay.msDelay(WAIT_TIME);
 		}
+		LCD.clear();
 		
 		average = average / count;
-		String temp = String.valueOf(maxRedValue);
-		LCD.clear();
 		LCD.drawString("max:",2,2);
-		LCD.drawString(temp,6,2);
-		temp = String.valueOf(minRedValue);
+		LCD.drawString(Float.toString(maxRedValue),6,2);
 		LCD.drawString("min:",2,3);
-		LCD.drawString(temp,6,3);
-		temp = String.valueOf(average);
+		LCD.drawString(Float.toString(minRedValue),6,3);
 		LCD.drawString("Avr:",2,4);
-		LCD.drawString(temp,6,4);
+		LCD.drawString(Float.toString(average),6,4);
 		Delay.msDelay(WAIT_TIME);
 		
 		while (Button.ENTER.isUp()){

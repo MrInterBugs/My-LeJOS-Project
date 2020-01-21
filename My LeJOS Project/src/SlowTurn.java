@@ -26,6 +26,7 @@ public class SlowTurn {
 		while(!mLeft.isStalled()) {
 			mLeft.forward();
 		}
+		Sound.beepSequenceUp();
 		mLeft.close();
 		System.exit(0);
 	}
