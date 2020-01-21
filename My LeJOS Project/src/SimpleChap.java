@@ -12,9 +12,10 @@ import lejos.utility.Delay;
 public class SimpleChap {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		final int WAIT_TIME = 1000;
 		final int RPS = 720;
+		final int ROTATE_NINETY_TIME = 290;
+		boolean clapped = false;
 		
 		LCD.drawString("SimpleChap.java",2,2);
 		LCD.drawString("Version 1",2,3);
@@ -25,6 +26,7 @@ public class SimpleChap {
 		
 		BaseRegulatedMotor mLeft = new EV3LargeRegulatedMotor(MotorPort.A);
 		BaseRegulatedMotor mRight = new EV3LargeRegulatedMotor(MotorPort.B);
+		mLeft.synchronizeWith(new BaseRegulatedMotor [] {mRight});
 		
 		mLeft.setSpeed(RPS); //2 Revolutions Per Second (RPS)
 		mRight.setSpeed(RPS);
@@ -35,14 +37,37 @@ public class SimpleChap {
 		SensorMode sound = (SensorMode) ss.getDBAMode();
 		SampleProvider clap = new ClapFilter(sound,0.6f,100);
 		
-		while (Button.ENTER.isUp()) {
+		while (!clapped) {
 			clap.fetchSample(level,0);
-			if (level[0] > 0.5 ) {
-				
+			if (level[0] > 0.5) {
+				mLeft.startSynchronization();
+				mLeft.forward();
+				mRight.forward();
+				mLeft.endSynchronization();
+				clapped = true;
 			}
+			Delay.msDelay(WAIT_TIME);
 		}
 		
-		
+		clapped = false;
+		while(!clapped) {
+			clap.fetchSample(level, 0);
+			if(level[0] > 0.5) {
+				mLeft.stop();
+				mRight.stop();
+				
+				mRight.forward();
+				Delay.msDelay(ROTATE_NINETY_TIME);
+				mRight.stop();
+				
+				mLeft.startSynchronization();
+				mLeft.forward();
+				mRight.forward();
+				mLeft.endSynchronization();
+				clapped = true;
+			}
+			Delay.msDelay(WAIT_TIME);
+		}
 		
 		mLeft.stop();
 		mRight.stop();
@@ -50,5 +75,4 @@ public class SimpleChap {
 		mRight.close();
 		ss.close();
 	}
-
 }
