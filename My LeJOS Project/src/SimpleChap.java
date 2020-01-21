@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.BaseRegulatedMotor;
@@ -37,6 +39,10 @@ public class SimpleChap {
 		
 		while (Button.ENTER.isUp()) {
 			clap.fetchSample(level,0);
+			LCD.clear();
+			String temp = Arrays.toString(level);
+			LCD.drawString(temp, 2, 2);
+			Delay.msDelay(WAIT_TIME);
 		}
 		
 		
