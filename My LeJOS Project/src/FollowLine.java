@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.BaseRegulatedMotor;
@@ -36,9 +34,10 @@ public class FollowLine {
 		EV3ColorSensor cs = new EV3ColorSensor(SensorPort.S3);
 		SampleProvider colour = cs.getRedMode();
 		
+		LCD.drawString("Press enter",2,2);
+		LCD.drawString("to continue",2,3);
+		
 		while (Button.ENTER.isUp()){
-			LCD.drawString("Press enter",2,2);
-			LCD.drawString("to continue",2,3);
 			colour.fetchSample(level,0);
 			count++;
 			average = average + level[0];
@@ -51,13 +50,9 @@ public class FollowLine {
 		LCD.clear();
 		
 		average = average / count;
-		LCD.drawString("max:",2,2);
-		LCD.drawString(Float.toString(maxRedValue),6,2);
-		LCD.drawString("min:",2,3);
-		LCD.drawString(Float.toString(minRedValue),6,3);
-		LCD.drawString("Avr:",2,4);
-		LCD.drawString(Float.toString(average),6,4);
-		Delay.msDelay(WAIT_TIME);
+		LCD.drawString("max:" + Float.toString(maxRedValue),2,2);
+		LCD.drawString("min:" + Float.toString(minRedValue),2,3);
+		LCD.drawString("Avr:" + Float.toString(average),2,4);
 		
 		while (Button.ENTER.isUp()){
 			colour.fetchSample(level,0);
