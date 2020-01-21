@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.SensorPort;
@@ -19,29 +21,29 @@ public class ClapClapCar {
 		Delay.msDelay(WAIT_TIME);
 		
 		float[] level = new float[1]; //A sound sample is just one number
-		int maxSoundLevel = 0; int minSoundLevel = 0;
+		float maxSoundLevel = 0; float minSoundLevel = 1;
 		
-		while(true) {
-			@SuppressWarnings("resource")
-			NXTSoundSensor ss = new NXTSoundSensor(SensorPort.S1);
-			SampleProvider sound = ss.getDBAMode();
+		@SuppressWarnings("resource")
+		NXTSoundSensor ss = new NXTSoundSensor(SensorPort.S2);
+		SampleProvider sound = ss.getDBAMode();
+		for (int i = 0; i < 10; i++){
 			sound.fetchSample(level,0);
-			if(level[0] > maxSoundLevel) {
-				maxSoundLevel = (int) level[0];
-				LCD.clear();
-				LCD.drawString("max",2,2);
-				LCD.drawInt(maxSoundLevel,4,2);
-				LCD.drawString("min",2,3);
-				LCD.drawInt(minSoundLevel,4,3);
-			} else if(level[0] < minSoundLevel) {
-				minSoundLevel = (int) level[0];
-				LCD.clear();
-				LCD.drawString("max",2,2);
-				LCD.drawInt(maxSoundLevel,4,2);
-				LCD.drawString("min",2,3);
-				LCD.drawInt(minSoundLevel,4,3);
+			String temp = Arrays.toString(level);
+			LCD.drawString(temp,2,2);
+			if(level[0] >= maxSoundLevel) {
+				maxSoundLevel = level[0];
+			} else if(level[0] <= minSoundLevel) {
+				minSoundLevel = level[0];
 			}
+			Delay.msDelay(WAIT_TIME);
 		}
+		String temp = String.valueOf(maxSoundLevel);
+		LCD.clear();
+		LCD.drawString(temp,2,2);
+		temp = String.valueOf(minSoundLevel);
+		LCD.drawString(temp,2,3);
+		Delay.msDelay(WAIT_TIME);
+		Delay.msDelay(WAIT_TIME);
 	}
 
 }
