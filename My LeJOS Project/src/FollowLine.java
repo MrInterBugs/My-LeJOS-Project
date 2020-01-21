@@ -15,7 +15,6 @@ public class FollowLine {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		final int WAIT_TIME = 1000;
-		final int LONG_WAIT = 10000;
 		final int RPS = 720;
 		
 		LCD.drawString("FollowLine.java",2,2);
@@ -73,6 +72,11 @@ public class FollowLine {
 				mRight.rotate(180);
 			}
 		}
+		mLeft.stop();
+		mRight.stop();
+		mLeft.close();
+		mRight.close();
+		cs.close();
 	}
 
 }

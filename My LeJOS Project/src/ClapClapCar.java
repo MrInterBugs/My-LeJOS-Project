@@ -23,7 +23,6 @@ public class ClapClapCar {
 		float[] level = new float[1]; //A sound sample is just one number
 		float maxSoundLevel = 0; float minSoundLevel = 1;
 		
-		@SuppressWarnings("resource")
 		NXTSoundSensor ss = new NXTSoundSensor(SensorPort.S2);
 		SampleProvider sound = ss.getDBAMode();
 		for (int i = 0; i < 10; i++){
@@ -44,6 +43,7 @@ public class ClapClapCar {
 		LCD.drawString(temp,2,3);
 		Delay.msDelay(WAIT_TIME);
 		Delay.msDelay(WAIT_TIME);
+		ss.close();
 	}
 
 }
