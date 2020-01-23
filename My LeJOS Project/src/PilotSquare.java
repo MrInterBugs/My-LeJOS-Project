@@ -15,18 +15,13 @@ import lejos.robotics.pathfinding.Path;
 
 public class PilotSquare {
 	
-	final static float WHEEL_DIAMETER = 56; // The diameter (mm) of the wheels
-	final static float AXLE_LENGTH = 120; // The distance (mm) your two driven wheels
-	final static float ANGULAR_SPEED = 100; // How fast around corners (degrees/sec)
-	final static float LINEAR_SPEED = 70; // How fast in a straight line (mm/sec)
+	static final float WHEEL_DIAMETER = 56; // The diameter (mm) of the wheels
+	static final float AXLE_LENGTH = 120; // The distance (mm) your two driven wheels
+	static final float ANGULAR_SPEED = 100; // How fast around corners (degrees/sec)
+	static final float LINEAR_SPEED = 70; // How fast in a straight line (mm/sec)
 	
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-/*		final int SQUARE_ANGLE = 90;
-		final int FORWARDS_DISTANCE = 1000;
-		final int SIDES = 4;
-*/		
 		
 		BaseRegulatedMotor mL = new EV3LargeRegulatedMotor(MotorPort.A);
 		Wheel wL = WheeledChassis.modelWheel(mL, WHEEL_DIAMETER).offset(AXLE_LENGTH/2);
@@ -40,12 +35,7 @@ public class PilotSquare {
 		
 		plt.setLinearSpeed(LINEAR_SPEED);
 		plt.setAngularSpeed(ANGULAR_SPEED);
-		
-/*		for (int sides = 0; sides < SIDES; sides++) {
-			plt.travel(FORWARDS_DISTANCE);
-			plt.rotate(SQUARE_ANGLE);
-		}
-*/
+
 		Navigator navigator = new Navigator(plt, poseP);
 		
 		Path path = new Path();
