@@ -19,7 +19,9 @@ public class Behavior {
 
 	public static void main(String[] args) {
 		final int ONE_METER = 1000;
+		
 		final int SHORT_PAUSE = 500;
+		
 		final int ANGULAR_SPEED_NIGHT = 100; // How fast around corners (degrees/sec)
 		final int LINEAR_SPEED_NIGHT = 70; // How fast in a straight line (mm/sec)
 		final int ANGULAR_SPEED_DAY = 200; // How fast around corners (degrees/sec)
