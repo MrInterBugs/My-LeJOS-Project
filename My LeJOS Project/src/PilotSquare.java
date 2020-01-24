@@ -39,9 +39,9 @@ public class PilotSquare {
 		Navigator navigator = new Navigator(plt, poseP);
 		
 		Path path = new Path();
-		path.add(new Waypoint(100, 0));
-		path.add(new Waypoint(100, 100));
-		path.add(new Waypoint(0, 100));
+		path.add(new Waypoint(1000, 0));
+		path.add(new Waypoint(1000, 1000));
+		path.add(new Waypoint(0, 1000));
 		path.add(new Waypoint(0, 0));
 		
 		navigator.followPath(path);

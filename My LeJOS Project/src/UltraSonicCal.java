@@ -15,7 +15,7 @@ public class UltraSonicCal {
 		while (Button.ESCAPE.isUp()) {
 			if (Button.ENTER.isDown()) {
 				LCD.clear();
-				distance.fetchSample(level, 0);
+				distance.fetchSample(level, 0);	
 				LCD.drawString(Float.toString(level[0]),2,2);
 			}
 		}

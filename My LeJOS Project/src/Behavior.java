@@ -1,3 +1,4 @@
+import lejos.hardware.Battery;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
@@ -19,6 +20,9 @@ import lejos.utility.Delay;
  */
 public class Behavior {
 	
+	static final int SHORT_PAUSE = 500;
+	static final int SECOND_PAUSE = 1000;
+	
 	/**
 	 * Displays the program and version information until a button is pressed.
 	 * Also shows group members names.
@@ -39,14 +43,28 @@ public class Behavior {
 	}
 	
 	/**
+	 * A method to kill the program if the battery is below 15%.
+	 * Also tells you the current percentage if it is below 15%.
+	 */
+	public static void battery() {
+		float currentVoltage = Battery.getVoltage();
+		if(currentVoltage < 0.15f) {
+			LCD.clear();
+			LCD.drawString("The battery is",2,2);
+			LCD.drawString("low on charge!",2,3);
+			LCD.drawString(Float.toString(currentVoltage) + "%",2,4);
+			Delay.msDelay(SECOND_PAUSE);
+			System.exit(-1);
+		}
+	}
+	
+	/**
 	 * @param args
 	 * 
 	 * Main method to hold constants and call other methods.
 	 */
 	public static void main(String[] args) {
 		final int ONE_METER = 1000;
-		
-		final int SHORT_PAUSE = 500;
 		
 		final int U_TURN = 180;
 		
@@ -65,6 +83,8 @@ public class Behavior {
 		Wheel rightWheel = WheeledChassis.modelWheel(rightMotor, WHEEL_DIAMETER).offset(-AXLE_LENGTH/2);
 		
 		final MovePilot PILOT = pilot(rightWheel, leftWheel);
+		
+		battery();
 		
 		init();
 		

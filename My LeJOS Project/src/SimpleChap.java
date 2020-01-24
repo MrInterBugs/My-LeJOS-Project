@@ -40,7 +40,7 @@ public class SimpleChap {
 		
 		while (!clapped) {
 			clap.fetchSample(level,0);
-			while (level[0] < 0.5) {
+			while (level[0] > 0.5) {
 				mLeft.startSynchronization();
 				mLeft.forward();
 				mRight.forward();
@@ -78,7 +78,7 @@ public class SimpleChap {
 		mLeft.stop();
 		mRight.stop();
 		mLeft.close();
-		mRight.close();
+		mRight.close();	
 		ss.close();
 		us.close();
 	}
