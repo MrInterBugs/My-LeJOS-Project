@@ -22,10 +22,13 @@ public class Behavior {
 		
 		final int SHORT_PAUSE = 500;
 		
-		final int ANGULAR_SPEED_NIGHT = 100; // How fast around corners (degrees/sec)
-		final int LINEAR_SPEED_NIGHT = 70; // How fast in a straight line (mm/sec)
-		final int ANGULAR_SPEED_DAY = 200; // How fast around corners (degrees/sec)
-		final int LINEAR_SPEED_DAY = 140; // How fast in a straight line (mm/sec)
+		final int RIGHT_ANGLE = 90;
+		final int U_TURN = 180;
+		
+		final int ANGULAR_SPEED_NIGHT = 70; // How fast around corners in low light(degrees/sec)
+		final int LINEAR_SPEED_NIGHT = 100; // How fast in a straight line in low light(mm/sec)
+		final int ANGULAR_SPEED_DAY = 140; // How fast around corners in bright light(degrees/sec)
+		final int LINEAR_SPEED_DAY = 200; // How fast in a straight line in bright light(mm/sec)
 		
 		LCD.drawString("Behavior.java",2,2);
 		LCD.drawString("Version 0.1",2,3);
@@ -33,14 +36,19 @@ public class Behavior {
 		Button.ENTER.waitForPressAndRelease();
 		LCD.clear();
 		
-		move(LINEAR_SPEED_DAY, ANGULAR_SPEED_DAY, ONE_METER);
+		move(LINEAR_SPEED_DAY, ONE_METER);
+		turn(U_TURN, ANGULAR_SPEED_DAY);
 		Delay.msDelay(SHORT_PAUSE);
-		move(LINEAR_SPEED_NIGHT, ANGULAR_SPEED_NIGHT, -ONE_METER);
+		move(LINEAR_SPEED_NIGHT, -ONE_METER);
+		turn(U_TURN, ANGULAR_SPEED_NIGHT);
 	}
 	
-	public static void move(int SPEED, int ANGLE, int TRAVEL_DISTANCE) {
-		LCD.clear();
-		
+	/*
+	* Allows the creation of a movePilot to control the movements of the robot.
+	* 
+	* @return pilot
+	*/
+	public static MovePilot pilot() {
 		BaseRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
 		Wheel leftWheel = WheeledChassis.modelWheel(leftMotor, WHEEL_DIAMETER).offset(AXLE_LENGTH/2);
 		
@@ -48,17 +56,48 @@ public class Behavior {
 		Wheel rightWheel = WheeledChassis.modelWheel(rightMotor, WHEEL_DIAMETER).offset(-AXLE_LENGTH/2);
 		
 		Chassis chassis = new WheeledChassis(new Wheel[]{rightWheel,leftWheel},WheeledChassis.TYPE_DIFFERENTIAL);
-		MovePilot pilot = new MovePilot(chassis);
-		PoseProvider PoseProvider = new OdometryPoseProvider(pilot);
+		return(new MovePilot(chassis));
+	}
+	
+	/*
+	* @input Speed
+	* @input DistanceToTravel
+	* 
+	* Using a movePilot moves the robot at a set speed in a straight line.
+	*/
+	public static void move(int SPEED, int TRAVEL_DISTANCE) {
+		LCD.clear();
+		
+		MovePilot pilot = pilot();
+		PoseProvider poseProvider = new OdometryPoseProvider(pilot);
 		
 		pilot.setLinearSpeed(SPEED);
-		pilot.setAngularSpeed(ANGLE);
 
 		Sound.beep();
 		pilot.travel(TRAVEL_DISTANCE);
 		
 		pilot.stop();
-		LCD.drawString(PoseProvider.getPose().toString(),0,0);
+		LCD.drawString(poseProvider.getPose().toString(),0,0);
 	}
+	
+	/*
+	* @input AngleToTurn
+	* @input Speed
+	* 
+	* Using a movePilot rotates the robot through an angle at a set speed.
+	*/
+	public static void turn(int ANGLE, int SPEED) {
+		LCD.clear();
+		
+		MovePilot pilot = pilot();
+		PoseProvider poseProvider = new OdometryPoseProvider(pilot);
+		
+		pilot.setAngularSpeed(SPEED);
 
+		Sound.beep();
+		pilot.rotate(ANGLE);
+		
+		pilot.stop();
+		LCD.drawString(poseProvider.getPose().toString(),0,0);
+	}
 }
