@@ -13,14 +13,14 @@ public class GoCar {
 		LCD.drawString("Aedan Lawrence",2,4);
 		BaseRegulatedMotor mLeft = new EV3LargeRegulatedMotor(MotorPort.A);
 		BaseRegulatedMotor mRight = new EV3LargeRegulatedMotor(MotorPort.B);
-		mLeft.setSpeed(720); //2 Revolutions Per Second (RPS)
-		mRight.setSpeed(720);
+		mLeft.setSpeed(1440); //2 Revolutions Per Second (RPS)
+		mRight.setSpeed(1440);
 		mLeft.synchronizeWith(new BaseRegulatedMotor[] {mRight});
 		mLeft.startSynchronization();
 		mLeft.forward();
 		mRight.forward();
 		mLeft.endSynchronization();
-		Delay.msDelay(1000);
+		Delay.msDelay(10000);
 		mLeft.startSynchronization();
 		mLeft.stop();
 		mRight.stop();
