@@ -46,7 +46,7 @@ public class Behavior {
 	 * A method to kill the program if the battery is below 15%.
 	 * Also tells you the current percentage if it is below 15%.
 	 */
-	public static void battery() {
+	public static void checkBattery() {
 		float currentVoltage = Battery.getVoltage();
 		if(currentVoltage < 0.15f) {
 			LCD.clear();
@@ -84,7 +84,7 @@ public class Behavior {
 		
 		final MovePilot PILOT = pilot(rightWheel, leftWheel);
 		
-		battery();
+		checkBattery();
 		
 		init();
 		
