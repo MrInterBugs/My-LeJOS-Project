@@ -21,12 +21,19 @@ public class Behavior {
 	
 	/**
 	 * Displays the program and version information until a button is pressed.
+	 * Also shows group members names.
 	 */
 	public static void init() {
 		LCD.drawString("Behavior.jar",2,2);
 		LCD.drawString("Version 0.1",2,3);
-		LCD.drawString("Aedan Lawrence",2,4);
 		LCD.drawString("Press Enter",2,5);
+		Button.ENTER.waitForPressAndRelease();
+		LCD.clear();
+		LCD.drawString("Aedan Lawrence",2,2);
+		LCD.drawString("Bruce Lay",2,3);
+		LCD.drawString("Edmund Chee",2,4);
+		LCD.drawString("Joules James",2,5);
+		LCD.drawString("Press Enter",2,6);
 		Button.ENTER.waitForPressAndRelease();
 		LCD.clear();
 	}
@@ -41,7 +48,6 @@ public class Behavior {
 		
 		final int SHORT_PAUSE = 500;
 		
-		final int RIGHT_ANGLE = 90;
 		final int U_TURN = 180;
 		
 		final int ANGULAR_SPEED_NIGHT = 70; // How fast around corners in low light(degrees/sec)

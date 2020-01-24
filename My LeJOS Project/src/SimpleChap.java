@@ -40,14 +40,14 @@ public class SimpleChap {
 		
 		while (!clapped) {
 			clap.fetchSample(level,0);
-			while (level[0] > 0.5) {
+			while (level[0] < 0.5) {
 				mLeft.startSynchronization();
 				mLeft.forward();
 				mRight.forward();
 				mLeft.endSynchronization();
 				clap.fetchSample(level,0);
-				clapped = true;
 			}
+			clapped = true;
 			Delay.msDelay(WAIT_TIME);
 		}
 		
